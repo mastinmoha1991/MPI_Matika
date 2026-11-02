@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MPI Pecahan Biasa & LKPD - Matematika Kelas IV MI</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts & Font Awesome Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: linear-gradient(135deg, #e0f2fe 0%, #f0fdf4 100%);
+            min-height: 100vh;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .btn-bounce:hover {
+            transform: translateY(-2px);
+        }
+        .btn-bounce:active {
+            transform: translateY(1px);
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #0ea5e9;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="text-slate-800 antialiased selection:bg-sky-500 selection:text-white flex flex-col min-h-screen">
+
+    <!-- HEADER / NAVBAR -->
+    <header class="bg-white/90 backdrop-filter blur-md sticky top-0 z-50 border-b border-sky-100 shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-sky-500 to-emerald-400 flex items-center justify-center text-white font-bold text-xl shadow-md">
+                    🧮
+                </div>
+                <div>
+                    <h1 class="font-bold text-slate-800 text-base md:text-lg leading-tight">MPI Pecahan Biasa</h1>
+                    <p class="text-xs text-sky-600 font-medium">Matematika Kelas IV MI / Fase B</p>
+                </div>
+            </div>
+
+            <!-- Student Profile Badge -->
+            <div id="userBadge" class="hidden flex items-center gap-2 bg-sky-50 border border-sky-200 px-3 py-1.5 rounded-full">
+                <span class="text-xl">🧒</span>
+                <div class="text-left">
+                    <p id="badgeName" class="text-xs font-bold text-slate-700">Nama Siswa</p>
+                    <p id="badgeClass" class="text-[10px] text-sky-600">Kelas IV</p>
+                </div>
+                <button onclick="resetUser()" class="ml-2 text-slate-400 hover:text-red-500 text-xs" title="Ganti Nama">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="flex-grow max-w-5xl mx-auto w-full px-4 py-6">
+
+        <!-- 1. IDENTITAS SISWA SECTION -->
+        <section id="loginSection" class="max-w-md mx-auto glass-card rounded-3xl p-6 md:p-8 shadow-xl text-center border border-white">
+            <div class="w-20 h-20 bg-sky-100 rounded-full flex items-center justify-center mx-auto mb-4 text-4xl shadow-inner">
+                🧒
+            </div>
+            <h2 class="text-2xl font-bold text-slate-800 mb-2">Siapa Namamu?</h2>
+            <p class="text-sm text-slate-500 mb-6">Isi nama dan kelasmu terlebih dahulu untuk mulai belajar dan mengerjakan LKPD!</p>
+
+            <form onsubmit="handleLogin(event)" class="space-y-4 text-left">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Nama Lengkap Siswa</label>
+                    <input type="text" id="inputName" required minlength="3" placeholder="Masukkan nama lengkapmu..." class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent text-sm">
+                    <p class="text-[11px] text-slate-400 mt-1">* Minimal 3 huruf</p>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Kelas</label>
+                    <select id="inputClass" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent text-sm bg-white">
+                        <option value="IV A">Kelas IV A</option>
+                        <option value="IV B">Kelas IV B</option>
+                        <option value="IV C">Kelas IV C</option>
+                    </select>
+                </div>
+                <button type="submit" class="w-full py-3.5 bg-gradient-to-r from-sky-500 to-emerald-500 text-white font-bold rounded-xl shadow-lg shadow-sky-500/30 hover:opacity-95 transition btn-bounce">
+                    Mulai Sekarang <i class="fa-solid fa-arrow-right ml-2"></i>
+                </button>
+            </form>
+        </section>
+
+        <!-- 2. DASHBOARD / MENU UTAMA -->
+        <section id="mainMenuSection" class="hidden space-y-6">
+            <div class="bg-gradient-to-r from-sky-600 via-teal-500 to-emerald-500 rounded-3xl p-6 md:p-8 text-white shadow-xl relative overflow-hidden">
+                <div class="relative z-10 max-w-xl">
+                    <span class="bg-white/20 px-3 py-1 rounded-full text-xs font-medium tracking-wide border border-white/30">🌿 Gorontalo Eko-Matematika</span>
+                    <h2 class="text-2xl md:text-3xl font-extrabold mt-2">Selamat Datang, <span id="welcomeName" class="text-amber-300">Siswa</span>!</h2>
+                    <p class="text-sky-100 text-sm mt-1 leading-relaxed">Belajar, bermain, dan berlatih konsep Pecahan Biasa bersama modul interaktif & Lembar Kerja Peserta Didik (LKPD).</p>
+                </div>
+                <div class="absolute -right-10 -bottom-10 w-48 h-48 bg-white/10 rounded-full blur-2xl"></div>
+                <div class="absolute right-20 -top-10 w-32 h-32 bg-amber-300/20 rounded-full blur-xl"></div>
+            </div>
+
+            <!-- GRID MENU UTAMA -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+                <div onclick="openSection('lkpd')" class="glass-card rounded-2xl p-5 shadow-sm hover:shadow-xl transition-all cursor-pointer border-2 border-amber-400 hover:border-amber-500 group relative overflow-hidden btn-bounce">
+                    <div class="absolute -right-3 -top-3 bg-amber-400 text-white text-[10px] font-bold px-3 py-1 rounded-bl-xl uppercase tracking-wider">Fitur Utama</div>
+                    <div class="w-14 h-14 bg-amber-100 rounded-2xl flex items-center justify-center text-3xl mb-4 group-hover:scale-110 transition-transform">
+                        📑
+                    </div>
+                    <h3 class="font-bold text-slate-800 text-lg group-hover:text-amber-600 transition">LKPD Digital</h3>
+                    <p class="text-xs text-slate-500 mt-1">Informasi Mapel, Pengembang, Tujuan Pembelajaran & Soal LKPD Siswa.</p>
+                    <div class="mt-4 flex items-center text-amber-600 font-bold text-xs">
+                        Buka LKPD <i class="fa-solid fa-chevron-right ml-1 group-hover:translate-x-1 transition-transform"></i>
+                    </div>
+                </div>
+
+                <div onclick="openSection('belajar')" class="glass-card rounded-2xl p-5 shadow-sm hover:shadow-xl transition-all cursor-pointer border-2 border-transparent hover:border-sky-400 group btn-bounce">
+                    <div class="w-14 h-14 bg-sky-100 rounded-2xl flex items-center justify-center text-3xl mb-4 group-hover:scale-110 transition-transform">
+                        📖
+                    </div>
+                    <h3 class="font-bold text-slate-800 text-lg group-hover:text-sky-600 transition">BELAJAR</h3>
+                    <p class="text-xs text-slate-500 mt-1">6 slide materi mendalam dengan tantangan interaktif di setiap slide.</p>
+                    <div class="mt-4 flex items-center justify-between text-xs">
+                        <span class="text-sky-600 font-bold">Mulai Materi</span>
+                        <span class="bg-sky-100 text-sky-700 px-2 py-0.5 rounded-full font-semibold">6 Slide</span>
+                    </div>
+                </div>
+
+                <div onclick="openSection('bermain')" class="glass-card rounded-2xl p-5 shadow-sm hover:shadow-xl transition-all cursor-pointer border-2 border-transparent hover:border-emerald-400 group btn-bounce">
+                    <div class="w-14 h-14 bg-emerald-100 rounded-2xl flex items-center justify-center text-3xl mb-4 group-hover:scale-110 transition-transform">
+                        🎮
+                    </div>
+                    <h3 class="font-bold text-slate-800 text-lg group-hover:text-emerald-600 transition">BERMAIN</h3>
+                    <p class="text-xs text-slate-500 mt-1">10 tantangan seru visual pecahan dengan stimulus literasi & numerasi.</p>
+                    <div class="mt-4 flex items-center justify-between text-xs">
+                        <span class="text-emerald-600 font-bold">Main Game</span>
+                        <span id="gameScoreTag" class="bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full font-semibold">Skor: 0</span>
+                    </div>
+                </div>
+
+                <div onclick="openSection('berlatih')" class="glass-card rounded-2xl p-5 shadow-sm hover:shadow-xl transition-all cursor-pointer border-2 border-transparent hover:border-purple-400 group btn-bounce">
+                    <div class="w-14 h-14 bg-purple-100 rounded-2xl flex items-center justify-center text-3xl mb-4 group-hover:scale-110 transition-transform">
+                        📝
+                    </div>
+                    <h3 class="font-bold text-slate-800 text-lg group-hover:text-purple-600 transition">BERLATIH</h3>
+                    <p class="text-xs text-slate-500 mt-1">10 soal asesmen berjenjang (100 poin) hingga level HOTS.</p>
+                    <div class="mt-4 flex items-center justify-between text-xs">
+                        <span class="text-purple-600 font-bold">Kuis Evaluasi</span>
+                        <span class="bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full font-semibold">10 Soal</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. SECTION LKPD -->
+        <section id="lkpdSection" class="hidden space-y-6">
+            <div class="flex justify-between items-center">
+                <button onclick="showMainMenu()" class="flex items-center gap-2 text-slate-600 hover:text-sky-600 text-sm font-semibold transition">
+                    <i class="fa-solid fa-arrow-left"></i> Kembali ke Menu Utama
+                </button>
+                <span class="bg-amber-100 text-amber-800 px-3 py-1 rounded-full text-xs font-bold">📑 Modul LKPD Digital</span>
+            </div>
+
+            <div class="flex border-b border-slate-200 bg-white rounded-t-2xl px-4 pt-3 gap-2 md:gap-6 overflow-x-auto">
+                <button onclick="switchLkpdTab('info')" id="tabBtnInfo" class="pb-3 border-b-2 border-amber-500 text-amber-600 font-bold text-sm flex items-center gap-2 whitespace-nowrap">
+                    <i class="fa-solid fa-circle-info"></i> Info Mapel & Pengembang
+                </button>
+                <button onclick="switchLkpdTab('tujuan')" id="tabBtnTujuan" class="pb-3 border-b-2 border-transparent text-slate-500 font-bold text-sm hover:text-slate-700 flex items-center gap-2 whitespace-nowrap">
+                    <i class="fa-solid fa-bullseye"></i> Capaian & Tujuan
+                </button>
+                <button onclick="switchLkpdTab('soal')" id="tabBtnSoal" class="pb-3 border-b-2 border-transparent text-slate-500 font-bold text-sm hover:text-slate-700 flex items-center gap-2 whitespace-nowrap">
+                    <i class="fa-solid fa-pen-to-square"></i> Soal LKPD Siswa
+                </button>
+            </div>
+
+            <div id="lkpdTabInfo" class="glass-card rounded-b-2xl p-6 space-y-6">
+                <div>
+                    <h3 class="text-base font-bold text-slate-800 border-l-4 border-amber-500 pl-3 mb-4">Informasi Mata Pelajaran</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                        <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-100">
+                            <span class="text-xs text-slate-400 font-bold block">MATA PELAJARAN</span>
+                            <span class="font-bold text-slate-700">Matematika</span>
+                        </div>
+                        <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-100">
+                            <span class="text-xs text-slate-400 font-bold block">FASE / KELAS / SEMESTER</span>
+                            <span class="font-bold text-slate-700">Fase B / Kelas IV (Empat) / Ganjil</span>
+                        </div>
+                        <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-100">
+                            <span class="text-xs text-slate-400 font-bold block">MATERI POKOK</span>
+                            <span class="font-bold text-slate-700">Pecahan Biasa (Pembilang & Penyebut)</span>
+                        </div>
+                        <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-100">
+                            <span class="text-xs text-slate-400 font-bold block">ALOKASI WAKTU</span>
+                            <span class="font-bold text-slate-700">2 x 35 Menit (1 Pertemuan)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="border-slate-100">
+
+                <div>
+                    <h3 class="text-base font-bold text-slate-800 border-l-4 border-amber-500 pl-3 mb-4">Profil Tim Pengembang Media</h3>
+                    <div class="flex flex-col sm:flex-row items-center gap-5 bg-gradient-to-r from-amber-50 to-orange-50 p-5 rounded-2xl border border-amber-200/60">
+                        <div class="w-20 h-20 bg-amber-400 text-white rounded-full flex items-center justify-center text-3xl font-bold shadow-md">
+                            👨‍🏫
+                        </div>
+                        <div class="text-center sm:text-left space-y-1">
+                            <h4 class="font-extrabold text-slate-800 text-lg">Tim Pengembang MPI Gorontalo</h4>
+                            <p class="text-xs font-semibold text-amber-700">Guru & Pengembang Media Pembelajaran MI/SD</p>
+                            <p class="text-xs text-slate-600">Instansi: Kementerian Agama / Madrasah Ibtidaiyah (MI) Kota/Kab. Gorontalo</p>
+                            <p class="text-[11px] text-slate-500 mt-2">Didesain khusus berkonteks lingkungan alam dan budaya lokal untuk meningkatkan literasi dan numerasi siswa Madrasah.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="lkpdTabTujuan" class="hidden glass-card rounded-b-2xl p-6 space-y-6">
+                <div class="bg-sky-50 border border-sky-200 rounded-2xl p-4">
+                    <h4 class="font-bold text-sky-900 text-sm flex items-center gap-2 mb-2">
+                        <i class="fa-solid fa-award text-sky-600"></i> Capaian Pembelajaran (CP) - Bilangan
+                    </h4>
+                    <p class="text-xs text-sky-800 leading-relaxed">
+                        Pada akhir Fase B, peserta didik dapat membandingkan dan mengurutkan antar-pecahan dengan pembilang satu (misal: 1/2, 1/3, 1/4) dan pecahan dengan penyebut yang sama. Peserta didik dapat menyajikan dan mengidentifikasi pecahan biasa dalam bentuk gambar konkret.
+                    </p>
+                </div>
+
+                <div>
+                    <h3 class="text-base font-bold text-slate-800 border-l-4 border-emerald-500 pl-3 mb-3">Tujuan Pembelajaran (TP)</h3>
+                    <ul class="space-y-2.5 text-xs text-slate-700">
+                        <li class="flex items-start gap-2.5 bg-slate-50 p-3 rounded-xl border border-slate-100">
+                            <span class="bg-emerald-500 text-white w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold flex-shrink-0 mt-0.5">1</span>
+                            <span>Melalui eksplorasi konkret dan media digital, siswa mampu <strong>menjelaskan konsep pecahan biasa</strong> (pembilang dan penyebut) dengan benar.</span>
+                        </li>
+                        <li class="flex items-start gap-2.5 bg-slate-50 p-3 rounded-xl border border-slate-100">
+                            <span class="bg-emerald-500 text-white w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold flex-shrink-0 mt-0.5">2</span>
+                            <span>Siswa mampu <strong>menentukan nilai pecahan biasa</strong> dari bagian benda yang diarsir atau dibagi secara tepat.</span>
+                        </li>
+                        <li class="flex items-start gap-2.5 bg-slate-50 p-3 rounded-xl border border-slate-100">
+                            <span class="bg-emerald-500 text-white w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold flex-shrink-0 mt-0.5">3</span>
+                            <span>Siswa dapat <strong>membandingkan dua pecahan sederhana</strong> dengan penyebut yang sama secara cermat.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="text-base font-bold text-slate-800 border-l-4 border-purple-500 pl-3 mb-3">Indikator Ketercapaian Tujuan Pembelajaran (IKTP)</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+                        <div class="p-3 bg-purple-50 rounded-xl border border-purple-100 text-purple-900">
+                            <strong class="block mb-1">IKTP 1</strong>
+                            Menyebutkan bagian pembilang (atas) dan penyebut (bawah) pecahan.
+                        </div>
+                        <div class="p-3 bg-purple-50 rounded-xl border border-purple-100 text-purple-900">
+                            <strong class="block mb-1">IKTP 2</strong>
+                            Menggambarkan representasi pecahan biasa 1/2, 1/4, 3/4, dll.
+                        </div>
+                        <div class="p-3 bg-purple-50 rounded-xl border border-purple-100 text-purple-900">
+                            <strong class="block mb-1">IKTP 3</strong>
+                            Memecahkan masalah kontekstual sederhana terkait pecahan.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="lkpdTabSoal" class="hidden glass-card rounded-b-2xl p-6 space-y-6">
+                <div class="bg-amber-50 border border-amber-200 p-4 rounded-xl text-xs text-amber-900">
+                    <p class="font-bold flex items-center gap-1.5 mb-1">
+                        <i class="fa-solid fa-lightbulb text-amber-600"></i> Petunjuk Lembar Kerja Siswa:
+                    </p>
+                    <p>Kerjakan soal-soal aktivitas LKPD di bawah ini secara mandiri atau berdiskusi sesuai arahan Guru. Jawabanmu dapat langsung diisi pada kolom yang disediakan!</p>
+                </div>
+
+                <!-- Aktivitas 1 -->
+                <div class="border border-slate-200 rounded-2xl p-5 bg-white space-y-3">
+                    <div class="flex justify-between items-center">
+                        <span class="bg-sky-100 text-sky-800 text-xs font-bold px-3 py-1 rounded-full">Aktivitas 1: Konsep Dasar Pecahan</span>
+                        <span class="text-xs text-slate-400">Nilai Max: 30</span>
+                    </div>
+                    <p class="text-sm font-semibold text-slate-800">
+                        Sebuah Kue Sabongi khas Gorontalo dipotong menjadi 4 bagian yang sama besar. Ibu memberikan 1 potong kue tersebut kepada Ali.
+                    </p>
+                    <div class="bg-slate-50 p-3 rounded-xl text-xs text-slate-600 space-y-1">
+                        <p>a. Tuliskan nilai pecahan untuk kue yang diterima Ali!</p>
+                        <p>b. Sebutkan angka berapa yang bertindak sebagai <strong>Pembilang</strong> dan angka berapa yang bertindak sebagai <strong>Penyebut</strong>!</p>
+                    </div>
+                    <div>
+                        <textarea id="jawabanLkpd1" rows="3" placeholder="Tuliskan jawabanmu di sini (Contoh: Pecahannya adalah 1/4, Pembilang = 1, Penyebut = 4)..." class="w-full text-xs p-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-amber-500 focus:outline-none"></textarea>
+                    </div>
+                </div>
+
+                <!-- Aktivitas 2 -->
+                <div class="border border-slate-200 rounded-2xl p-5 bg-white space-y-3">
+                    <div class="flex justify-between items-center">
+                        <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full">Aktivitas 2: Mengarsir / Menentukan Nilai Gambar</span>
+                        <span class="text-xs text-slate-400">Nilai Max: 30</span>
+                    </div>
+                    <p class="text-sm font-semibold text-slate-800">
+                        Perhatikan gambar berikut: Ada sebuah cokelat yang dibagi menjadi 8 bagian sama besar. 3 bagian di antaranya telah dimakan.
+                    </p>
+                    <div class="flex gap-1 justify-center my-2 bg-amber-900/10 p-3 rounded-xl max-w-xs mx-auto">
+                        <div class="w-8 h-10 bg-amber-800 rounded border border-white text-center text-[10px] text-white flex items-center justify-center">Dimakan</div>
+                        <div class="w-8 h-10 bg-amber-800 rounded border border-white text-center text-[10px] text-white flex items-center justify-center">Dimakan</div>
+                        <div class="w-8 h-10 bg-amber-800 rounded border border-white text-center text-[10px] text-white flex items-center justify-center">Dimakan</div>
+                        <div class="w-8 h-10 bg-amber-200 rounded border border-white"></div>
+                        <div class="w-8 h-10 bg-amber-200 rounded border border-white"></div>
+                        <div class="w-8 h-10 bg-amber-200 rounded border border-white"></div>
+                        <div class="w-8 h-10 bg-amber-200 rounded border border-white"></div>
+                        <div class="w-8 h-10 bg-amber-200 rounded border border-white"></div>
+                    </div>
+                    <p class="text-xs text-slate-600">Berapa nilai pecahan untuk bagian cokelat yang <strong>sudah dimakan</strong>?</p>
+                    <input type="text" id="jawabanLkpd2" placeholder="Jawaban pecahan (contoh: 3/8)..." class="w-full text-xs p-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-amber-500 focus:outline-none">
+                </div>
+
+                <!-- Aktivitas 3 -->
+                <div class="border border-slate-200 rounded-2xl p-5 bg-white space-y-3">
+                    <div class="flex justify-between items-center">
+                        <span class="bg-purple-100 text-purple-800 text-xs font-bold px-3 py-1 rounded-full">Aktivitas 3: Membandingkan Pecahan</span>
+                        <span class="text-xs text-slate-400">Nilai Max: 40</span>
+                    </div>
+                    <p class="text-sm font-semibold text-slate-800">
+                        Bandingkan pecahan berikut dengan memberi tanda <strong>&gt;</strong> (lebih besar) atau <strong>&lt;</strong> (lebih kecil):
+                    </p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                        <div class="p-3 bg-slate-50 rounded-xl flex items-center justify-between border">
+                            <span class="font-bold text-base text-slate-700">3/5 .... 1/5</span>
+                            <input type="text" id="jawabanLkpd3a" placeholder="> atau <" class="w-16 p-2 text-center rounded border border-slate-300 font-bold">
+                        </div>
+                        <div class="p-3 bg-slate-50 rounded-xl flex items-center justify-between border">
+                            <span class="font-bold text-base text-slate-700">2/8 .... 5/8</span>
+                            <input type="text" id="jawabanLkpd3b" placeholder="> atau <" class="w-16 p-2 text-center rounded border border-slate-300 font-bold">
+                        </div>
+                    </div>
+                </div>
+
+                <button id="btnSimpanLkpd" onclick="simpanLkpd()" class="w-full py-3.5 bg-gradient-to-r from-amber-500 to-orange-500 text-white font-bold rounded-xl shadow-lg shadow-amber-500/20 hover:opacity-95 transition btn-bounce flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-paper-plane"></i> Simpan & Kirim Jawaban LKPD
+                </button>
+
+                <div id="lkpdStatusBox" class="hidden p-4 rounded-xl bg-emerald-100 border border-emerald-300 text-emerald-900 text-xs flex items-center gap-3">
+                    <i class="fa-solid fa-circle-check text-2xl text-emerald-600"></i>
+                    <div>
+                        <p class="font-bold">Jawaban LKPD Berhasil Disimpan!</p>
+                        <p id="lkpdStatusText">Selamat, pekerjaanmu telah tercatat pada sistem media pembelajaran ini.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. SECTION BELAJAR (MATERI) -->
+        <section id="belajarSection" class="hidden space-y-6">
+            <div class="flex justify-between items-center">
+                <button onclick="showMainMenu()" class="flex items-center gap-2 text-slate-600 hover:text-sky-600 text-sm font-semibold transition">
+                    <i class="fa-solid fa-arrow-left"></i> Menu Utama
+                </button>
+                <span id="slideIndicator" class="bg-sky-100 text-sky-800 px-3 py-1 rounded-full text-xs font-bold">Slide 1 dari 6</span>
+            </div>
+
+            <div class="glass-card rounded-3xl p-6 md:p-8 min-h-[380px] flex flex-col justify-between shadow-xl">
+                <div id="materiContent" class="space-y-4"></div>
+
+                <div class="flex justify-between items-center mt-6 pt-4 border-t border-slate-100">
+                    <button id="btnPrevSlide" onclick="prevSlide()" class="px-4 py-2 bg-slate-100 text-slate-600 rounded-xl font-semibold text-xs hover:bg-slate-200 disabled:opacity-50">
+                        <i class="fa-solid fa-chevron-left mr-1"></i> Sebelumnya
+                    </button>
+                    <button id="btnNextSlide" onclick="nextSlide()" class="px-5 py-2.5 bg-sky-500 text-white rounded-xl font-bold text-xs hover:bg-sky-600 shadow-md shadow-sky-500/20">
+                        Selanjutnya <i class="fa-solid fa-chevron-right ml-1"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. SECTION BERMAIN (GAME) -->
+        <section id="bermainSection" class="hidden space-y-6">
+            <div class="flex justify-between items-center">
+                <button onclick="showMainMenu()" class="flex items-center gap-2 text-slate-600 hover:text-emerald-600 text-sm font-semibold transition">
+                    <i class="fa-solid fa-arrow-left"></i> Menu Utama
+                </button>
+                <span class="bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full text-xs font-bold">🎮 Mini Game Pecahan</span>
+            </div>
+
+            <div class="glass-card rounded-3xl p-6 md:p-8 text-center space-y-6 shadow-xl">
+                <div class="flex justify-between items-center border-b pb-4">
+                    <span class="text-xs font-bold text-slate-500">Tantangan Ke: <span id="gameLevel" class="text-emerald-600 text-sm">1</span> / 10</span>
+                    <span class="text-xs font-bold bg-emerald-50 text-emerald-700 px-3 py-1 rounded-full border border-emerald-200">
+                        Skor Kamu: <span id="gameScoreDisplay">0</span>
+                    </span>
+                </div>
+
+                <div id="gameBox" class="space-y-4">
+                    <h3 id="gameQuestion" class="text-base font-bold text-slate-800">Tentukan nilai pecahan dari gambar di bawah ini!</h3>
+                    <div id="gameVisual" class="flex justify-center items-center py-4"></div>
+                    <div id="gameOptions" class="grid grid-cols-2 gap-3 max-w-md mx-auto pt-2"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. SECTION BERLATIH (KUIS) -->
+        <section id="berlatihSection" class="hidden space-y-6">
+            <div class="flex justify-between items-center">
+                <button onclick="showMainMenu()" class="flex items-center gap-2 text-slate-600 hover:text-purple-600 text-sm font-semibold transition">
+                    <i class="fa-solid fa-arrow-left"></i> Menu Utama
+                </button>
+                <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-xs font-bold">📝 Asesmen Kuis</span>
+            </div>
+
+            <div id="quizContainer" class="glass-card rounded-3xl p-6 md:p-8 shadow-xl space-y-6">
+                <div class="flex justify-between items-center border-b pb-3">
+                    <span class="text-xs font-bold text-slate-500">Soal <span id="quizNum">1</span> dari 10</span>
+                    <span class="text-xs bg-purple-100 text-purple-700 px-2.5 py-1 rounded-full font-bold">10 Poin / Soal</span>
+                </div>
+
+                <div class="space-y-4">
+                    <h3 id="quizQuestion" class="text-base font-bold text-slate-800 leading-relaxed">
+                        Pertanyaan kuis akan ditampilkan di sini.
+                    </h3>
+                    
+                    <div id="quizOptions" class="space-y-2.5 pt-2"></div>
+                </div>
+
+                <div class="flex justify-end pt-4">
+                    <button id="btnSubmitQuiz" onclick="submitQuizAnswer()" class="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs rounded-xl shadow-md transition disabled:opacity-50">
+                        Jawab & Lanjut <i class="fa-solid fa-arrow-right ml-1"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div id="quizResultBox" class="hidden glass-card rounded-3xl p-8 text-center space-y-4 shadow-xl">
+                <div class="w-20 h-20 bg-purple-100 rounded-full flex items-center justify-center mx-auto text-4xl">
+                    🏆
+                </div>
+                <h3 class="text-2xl font-extrabold text-slate-800">Hasil Kuis Evaluasi</h3>
+                <p class="text-sm text-slate-500">Kerja bagus! Berikut adalah perolehan nilaimu:</p>
+                <div class="text-5xl font-black text-purple-600 my-2" id="finalQuizScore">
+                    0
+                </div>
+                <p id="quizFeedback" class="text-xs font-semibold text-slate-600"></p>
+                <button onclick="showMainMenu()" class="mt-4 px-6 py-3 bg-slate-800 text-white font-bold rounded-xl text-xs hover:bg-slate-900 transition">
+                    Kembali ke Menu Utama
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-white/80 border-t border-slate-200 py-4 text-center text-xs text-slate-500 mt-auto">
+        <p>© 2026 MPI Pecahan Biasa • Kelas IV Madrasah Ibtidaiyah Gorontalo</p>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC WITH GAS INTEGRATION -->
+    <script>
+        // DEKLARASI URL WE B APP GOOGLE APPS SCRIPT
+        const GAS_URL = "URL_GAS_ANDA_DISINI";
+
+        // State Management
+        let currentUser = { name: '', class: '' };
+        let currentSlide = 0;
+        let gameScore = 0;
+        let currentGameIndex = 0;
+        let quizIndex = 0;
+        let quizScore = 0;
+        let selectedQuizOption = null;
+
+        // Arrays to log detailed student inputs
+        let gameInputDetails = [];
+        let quizInputDetails = [];
+
+        // MATERI SLIDES DATA
+        const materiData = [
+            {
+                title: " Apa Itu Pecahan?",
+                badge: "Slide 1: Pengenalan",
+                content: `
+                    <p class="text-sm text-slate-600 leading-relaxed">
+                        Pecahan adalah bagian dari keseluruhan yang utuh. Jika suatu benda utuh dipotong menjadi beberapa bagian yang <strong>sama besar</strong>, maka setiap bagian itu disebut pecahan.
+                    </p>
+                    <div class="bg-amber-50 border border-amber-200 p-4 rounded-2xl flex items-center gap-4 my-3">
+                        <div class="text-4xl">🍕</div>
+                        <div class="text-xs text-amber-900">
+                            <strong>Contoh Singkat:</strong> 1 buah kue utuh dipotong menjadi 2 bagian sama besar. Setiap potong bernilai <strong>1/2</strong> (satu per dua atau setengah).
+                        </div>
+                    </div>
+                `
+            },
+            {
+                title: "🔢 Pembilang dan Penyebut",
+                badge: "Slide 2: Struktur Pecahan",
+                content: `
+                    <p class="text-sm text-slate-600 mb-3">Pecahan dituliskan dengan dua angka yang dipisahkan garis horizontal:</p>
+                    <div class="bg-sky-50 border border-sky-200 p-6 rounded-2xl text-center max-w-xs mx-auto">
+                        <div class="text-3xl font-black text-sky-600">1</div>
+                        <div class="h-1 bg-sky-400 w-16 mx-auto my-1"></div>
+                        <div class="text-3xl font-black text-emerald-600">4</div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3 text-xs mt-4">
+                        <div class="bg-sky-100 p-3 rounded-xl border border-sky-200 text-sky-900">
+                            <strong>Angka Atas (1) = PEMBILANG</strong><br>Menunjukkan banyak bagian yang diambil/diarsir.
+                        </div>
+                        <div class="bg-emerald-100 p-3 rounded-xl border border-emerald-200 text-emerald-900">
+                            <strong>Angka Bawah (4) = PENYEBUT</strong><br>Menunjukkan total seluruh bagian yang sama.
+                        </div>
+                    </div>
+                `
+            },
+            {
+                title: "🍰 Membaca Nilai Pecahan",
+                badge: "Slide 3: Membaca Pecahan",
+                content: `
+                    <ul class="space-y-3 text-xs text-slate-700">
+                        <li class="flex items-center gap-3 bg-slate-50 p-3 rounded-xl border">
+                            <span class="font-extrabold text-sky-600 text-base">1 / 2</span>
+                            <span>Dibaca: <strong>Satu per dua</strong> atau <strong>Setengah</strong>.</span>
+                        </li>
+                        <li class="flex items-center gap-3 bg-slate-50 p-3 rounded-xl border">
+                            <span class="font-extrabold text-sky-600 text-base">1 / 4</span>
+                            <span>Dibaca: <strong>Satu per empat</strong> atau <strong>Seperempat</strong>.</span>
+                        </li>
+                        <li class="flex items-center gap-3 bg-slate-50 p-3 rounded-xl border">
+                            <span class="font-extrabold text-sky-600 text-base">3 / 4</span>
+                            <span>Dibaca: <strong>Tiga per empat</strong>.</span>
+                        </li>
+                    </ul>
+                `
+            },
+            {
+                title: "📐 Representasi Visual Pecahan",
+                badge: "Slide 4: Visualisasi",
+                content: `
+                    <p class="text-xs text-slate-600 mb-3">Lihat lingkaran di bawah ini yang dibagi menjadi 4 bagian sama besar dengan 3 bagian berwarna biru:</p>
+                    <div class="flex justify-center items-center my-4">
+                        <svg width="120" height="120" viewBox="0 0 100 100">
+                            <path d="M 50 50 L 50 0 A 50 50 0 0 1 100 50 Z" fill="#0ea5e9" />
+                            <path d="M 50 50 L 100 50 A 50 50 0 0 1 50 100 Z" fill="#0ea5e9" />
+                            <path d="M 50 50 L 50 100 A 50 50 0 0 1 0 50 Z" fill="#0ea5e9" />
+                            <path d="M 50 50 L 0 50 A 50 50 0 0 1 50 0 Z" fill="#e2e8f0" />
+                            <circle cx="50" cy="50" r="50" fill="none" stroke="#ffffff" stroke-width="2" />
+                        </svg>
+                    </div>
+                    <p class="text-center text-xs font-bold text-slate-700">3 dari 4 bagian diarsir = 3 / 4</p>
+                `
+            },
+            {
+                title: "⚖️ Membandingkan Pecahan Penyebut Sama",
+                badge: "Slide 5: Pembandingan",
+                content: `
+                    <p class="text-xs text-slate-600 leading-relaxed mb-3">
+                        Jika dua pecahan memiliki <strong>penyebut yang sama</strong>, kita hanya perlu membandingkan angka <strong>pembilangnya</strong>.
+                    </p>
+                    <div class="bg-purple-50 p-4 rounded-xl border border-purple-200 text-xs text-purple-900 space-y-2">
+                        <p>Contoh: Bandingkan <strong>3/5</strong> dan <strong>1/5</strong></p>
+                        <p class="font-bold text-sm">3 &gt; 1 , maka 3/5 &gt; 1/5</p>
+                        <p class="text-[11px] text-purple-700">* 3 bagian tentu lebih banyak daripada 1 bagian.</p>
+                    </div>
+                `
+            },
+            {
+                title: "💡 Kontekstual: Pecahan di Sekitar Kita",
+                badge: "Slide 6: Penerapan",
+                content: `
+                    <p class="text-xs text-slate-600 mb-3">Dalam kehidupan sehari-hari di Gorontalo, pecahan sering kita temui:</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                        <div class="p-3 bg-emerald-50 rounded-xl border border-emerald-200">
+                            <strong>🍊 Buah Jeruk:</strong> Dipotong menjadi 6 ulas sama besar, jika dimakan 2 ulas nilainya 2/6.
+                        </div>
+                        <div class="p-3 bg-amber-50 rounded-xl border border-amber-200">
+                            <strong>🐟 Ikan Cakalang:</strong> Dipotong 4 bagian sama besar untuk dimasak balado.
+                        </div>
+                    </div>
+                `
+            }
+        ];
+
+        // GAME DATA
+        const gameData = [
+            { question: "Manakah pecahan yang bernilai 1/2?", options: ["1/2", "1/4", "3/4", "2/3"], answer: "1/2" },
+            { question: "Pecahan 3/4 memiliki pembilang bernilai...", options: ["3", "4", "7", "1"], answer: "3" },
+            { question: "Pada pecahan 2/5, angka 5 dinamakan...", options: ["Penyebut", "Pembilang", "Pecahan", "Bagi"], answer: "Penyebut" },
+            { question: "1 kue dibagi 4 sama besar. 1 bagian nilainya...", options: ["1/4", "1/2", "4/1", "2/4"], answer: "1/4" },
+            { question: "Bandingkan: 4/8 ... 2/8", options: [">", "<", "=", "+"], answer: ">" },
+            { question: "Bandingkan: 1/6 ... 5/6", options: ["<", ">", "=", "x"], answer: "<" },
+            { question: "Pecahan dengan pembilang 2 dan penyebut 3 adalah...", options: ["2/3", "3/2", "1/3", "2/5"], answer: "2/3" },
+            { question: "Jika 3 dari 8 potongan kue dimakan, sisanya...", options: ["5/8", "3/8", "8/3", "2/8"], answer: "5/8" },
+            { question: "Pecahan berikut yang bernilai paling kecil adalah...", options: ["1/8", "3/8", "5/8", "7/8"], answer: "1/8" },
+            { question: "Satu per lima jika ditulis angka menjadi...", options: ["1/5", "5/1", "1/2", "2/5"], answer: "1/5" }
+        ];
+
+        // QUIZ DATA
+        const quizData = [
+            { q: "Apa definisi paling tepat dari pecahan biasa?", opts: ["Bagian dari keseluruhan yang utuh", "Angka sembarang", "Jumlah perkalian dua angka", "Pembagian tak terhingga"], ans: 0 },
+            { q: "Pada pecahan 3/7, angka 3 disebut sebagai...", opts: ["Pembilang", "Penyebut", "Pembagi", "Hasil"], ans: 0 },
+            { q: "Pada pecahan 5/9, angka 9 disebut sebagai...", opts: ["Penyebut", "Pembilang", "Satuan", "Puluhan"], ans: 0 },
+            { q: "Sebuah martabak dipotong menjadi 8 bagian sama besar. Andi memakan 3 potong. Nilai pecahan bagian martabak yang dimakan Andi adalah...", opts: ["3/8", "5/8", "8/3", "3/5"], ans: 0 },
+            { q: "Manakah simbol yang benar untuk membandingkan 5/10 ... 8/10?", opts: ["<", ">", "=", ">="], ans: 0 },
+            { q: "Manakah pernyataan di bawah ini yang BENAR?", opts: ["4/7 > 2/7", "1/5 > 3/5", "2/6 > 5/6", "3/9 = 9/3"], ans: 0 },
+            { q: "Ibu membelah semangka menjadi 6 bagian sama besar. Dua bagian diberikan kepada tetangga. Sisa semangka Ibu adalah...", opts: ["4/6", "2/6", "6/2", "1/6"], ans: 0 },
+            { q: "Pecahan dua per enam jika ditulis dengan lambang bilangan adalah...", opts: ["2/6", "6/2", "2/4", "1/6"], ans: 0 },
+            { q: "Antara pecahan 3/8 dan 7/8, manakah yang nilainya lebih besar?", opts: ["7/8", "3/8", "Keduanya sama", "Tidak bisa dibandingkan"], ans: 0 },
+            { q: "Ahmad memiliki 1/4 bagian kue, sedangkan Budi memiliki 3/4 bagian kue yang sama. Siapakah yang memiliki kue lebih banyak?", opts: ["Budi", "Ahmad", "Sama banyak", "Tidak tahu"], ans: 0 }
+        ];
+
+        // INITIALIZATION & SINKRONISASI SOAL
+        window.onload = function() {
+            const savedUser = localStorage.getItem('mpi_user');
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+                setupUserUI();
+            }
+            syncSoalToBackend();
+        };
+
+        // FUNGSI UTAMA INTEGRASI APPS SCRIPT
+        function sendToGAS(payload) {
+            if (!GAS_URL || GAS_URL.includes("URL_GAS_ANDA_DISINI")) {
+                console.warn("GAS_URL belum diatur.");
+                return;
+            }
+            fetch(GAS_URL, {
+                method: "POST",
+                mode: "no-cors",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            }).catch(err => console.error("Error sending data to GAS:", err));
+        }
+
+        function syncSoalToBackend() {
+            sendToGAS({
+                action: "sync_soal",
+                gameData: gameData,
+                quizData: quizData
+            });
+        }
+
+        // USER LOGIN LOGIC
+        function handleLogin(e) {
+            e.preventDefault();
+            const name = document.getElementById('inputName').value.trim();
+            const cls = document.getElementById('inputClass').value;
+
+            if (name.length < 3) return;
+
+            currentUser = { name, class: cls };
+            localStorage.setItem('mpi_user', JSON.stringify(currentUser));
+            setupUserUI();
+        }
+
+        function setupUserUI() {
+            document.getElementById('loginSection').classList.add('hidden');
+            document.getElementById('mainMenuSection').classList.remove('hidden');
+            
+            document.getElementById('userBadge').classList.remove('hidden');
+            document.getElementById('badgeName').innerText = currentUser.name;
+            document.getElementById('badgeClass').innerText = 'Kelas ' + currentUser.class;
+            document.getElementById('welcomeName').innerText = currentUser.name;
+        }
+
+        function resetUser() {
+            localStorage.removeItem('mpi_user');
+            location.reload();
+        }
+
+        // NAVIGATION LOGIC
+        function hideAllSections() {
+            document.getElementById('mainMenuSection').classList.add('hidden');
+            document.getElementById('lkpdSection').classList.add('hidden');
+            document.getElementById('belajarSection').classList.add('hidden');
+            document.getElementById('bermainSection').classList.add('hidden');
+            document.getElementById('berlatihSection').classList.add('hidden');
+        }
+
+        function showMainMenu() {
+            hideAllSections();
+            document.getElementById('mainMenuSection').classList.remove('hidden');
+        }
+
+        function openSection(sec) {
+            hideAllSections();
+            if (sec === 'lkpd') {
+                document.getElementById('lkpdSection').classList.remove('hidden');
+            } else if (sec === 'belajar') {
+                document.getElementById('belajarSection').classList.remove('hidden');
+                renderSlide();
+            } else if (sec === 'bermain') {
+                document.getElementById('bermainSection').classList.remove('hidden');
+                loadGameLevel();
+            } else if (sec === 'berlatih') {
+                document.getElementById('berlatihSection').classList.remove('hidden');
+                loadQuizQuestion();
+            }
+        }
+
+        // LKPD TAB SWITCHING & SIMPAN
+        function switchLkpdTab(tab) {
+            document.getElementById('lkpdTabInfo').classList.add('hidden');
+            document.getElementById('lkpdTabTujuan').classList.add('hidden');
+            document.getElementById('lkpdTabSoal').classList.add('hidden');
+
+            document.getElementById('tabBtnInfo').className = "pb-3 border-b-2 border-transparent text-slate-500 font-bold text-sm hover:text-slate-700 flex items-center gap-2 whitespace-nowrap";
+            document.getElementById('tabBtnTujuan').className = "pb-3 border-b-2 border-transparent text-slate-500 font-bold text-sm hover:text-slate-700 flex items-center gap-2 whitespace-nowrap";
+            document.getElementById('tabBtnSoal').className = "pb-3 border-b-2 border-transparent text-slate-500 font-bold text-sm hover:text-slate-700 flex items-center gap-2 whitespace-nowrap";
+
+            if (tab === 'info') {
+                document.getElementById('lkpdTabInfo').classList.remove('hidden');
+                document.getElementById('tabBtnInfo').className = "pb-3 border-b-2 border-amber-500 text-amber-600 font-bold text-sm flex items-center gap-2 whitespace-nowrap";
+            } else if (tab === 'tujuan') {
+                document.getElementById('lkpdTabTujuan').classList.remove('hidden');
+                document.getElementById('tabBtnTujuan').className = "pb-3 border-b-2 border-amber-500 text-amber-600 font-bold text-sm flex items-center gap-2 whitespace-nowrap";
+            } else if (tab === 'soal') {
+                document.getElementById('lkpdTabSoal').classList.remove('hidden');
+                document.getElementById('tabBtnSoal').className = "pb-3 border-b-2 border-amber-500 text-amber-600 font-bold text-sm flex items-center gap-2 whitespace-nowrap";
+            }
+        }
+
+        function simpanLkpd() {
+            const ans1 = document.getElementById('jawabanLkpd1').value.trim();
+            const ans2 = document.getElementById('jawabanLkpd2').value.trim();
+            const ans3a = document.getElementById('jawabanLkpd3a').value.trim();
+            const ans3b = document.getElementById('jawabanLkpd3b').value.trim();
+
+            if (!ans1 && !ans2 && !ans3a && !ans3b) {
+                alert("Isi setidaknya satu jawaban LKPD sebelum mengirim!");
+                return;
+            }
+
+            const detailInput = `Akt 1: ${ans1 || "-"} | Akt 2: ${ans2 || "-"} | Akt 3a: ${ans3a || "-"} | Akt 3b: ${ans3b || "-"}`;
+
+            sendToGAS({
+                action: "submit_hasil",
+                nama: currentUser.name,
+                kelas: currentUser.class,
+                jenisAktivitas: "LKPD Digital",
+                jumlahBenar: "-",
+                jumlahSalah: "-",
+                skor: "-",
+                detailInputan: detailInput
+            });
+
+            const statusBox = document.getElementById('lkpdStatusBox');
+            statusBox.classList.remove('hidden');
+            document.getElementById('lkpdStatusText').innerText = `Terima kasih ${currentUser.name}! Jawaban LKPD-mu telah tersimpan ke Google Sheets Guru.`;
+            statusBox.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // BELAJAR LOGIC
+        function renderSlide() {
+            const data = materiData[currentSlide];
+            document.getElementById('slideIndicator').innerText = `Slide ${currentSlide + 1} dari ${materiData.length}`;
+            
+            let html = `
+                <div class="flex justify-between items-center">
+                    <span class="bg-sky-100 text-sky-700 text-xs font-bold px-3 py-1 rounded-full">${data.badge}</span>
+                </div>
+                <h3 class="text-xl font-bold text-slate-800">${data.title}</h3>
+                <div>${data.content}</div>
+            `;
+            document.getElementById('materiContent').innerHTML = html;
+
+            document.getElementById('btnPrevSlide').disabled = (currentSlide === 0);
+            document.getElementById('btnNextSlide').innerText = (currentSlide === materiData.length - 1) ? "Selesai Belajar" : "Selanjutnya";
+        }
+
+        function nextSlide() {
+            if (currentSlide < materiData.length - 1) {
+                currentSlide++;
+                renderSlide();
+            } else {
+                showMainMenu();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                renderSlide();
+            }
+        }
+
+        // BERMAIN (GAME) LOGIC
+        function loadGameLevel() {
+            if (currentGameIndex >= gameData.length) {
+                const totalBenar = gameScore / 10;
+                const totalSalah = gameData.length - totalBenar;
+                
+                sendToGAS({
+                    action: "submit_hasil",
+                    nama: currentUser.name,
+                    kelas: currentUser.class,
+                    jenisAktivitas: "Bermain (Game)",
+                    jumlahBenar: totalBenar,
+                    jumlahSalah: totalSalah,
+                    skor: gameScore,
+                    detailInputan: gameInputDetails.join(" ; ")
+                });
+
+                document.getElementById('gameBox').innerHTML = `
+                    <div class="text-center space-y-3 py-6">
+                        <div class="text-5xl">🎉</div>
+                        <h4 class="text-xl font-bold text-slate-800">Hebat! Kamu Menyelesaikan Permainan!</h4>
+                        <p class="text-xs text-slate-600">Total Skor Permainanmu: <strong class="text-emerald-600 text-base">${gameScore}</strong></p>
+                        <p class="text-[11px] text-emerald-700">Hasil permainan telah dikirim ke Spreadsheet Guru.</p>
+                        <button onclick="restartGame()" class="px-5 py-2.5 bg-emerald-500 text-white font-bold rounded-xl text-xs hover:bg-emerald-600">Main Lagi</button>
+                    </div>
+                `;
+                return;
+            }
+
+            const current = gameData[currentGameIndex];
+            document.getElementById('gameLevel').innerText = currentGameIndex + 1;
+            document.getElementById('gameQuestion').innerText = current.question;
+            document.getElementById('gameScoreDisplay').innerText = gameScore;
+
+            document.getElementById('gameVisual').innerHTML = `
+                <div class="w-24 h-24 bg-gradient-to-tr from-emerald-400 to-teal-200 rounded-2xl flex items-center justify-center text-4xl shadow-inner text-white font-black">
+                    ${current.answer}
+                </div>
+            `;
+
+            let optionsHtml = '';
+            current.options.forEach(opt => {
+                optionsHtml += `
+                    <button onclick="checkGameAnswer('${opt}')" class="py-3 px-4 bg-slate-50 hover:bg-emerald-50 border border-slate-200 hover:border-emerald-300 font-bold text-sm rounded-xl text-slate-700 transition">
+                        ${opt}
+                    </button>
+                `;
+            });
+            document.getElementById('gameOptions').innerHTML = optionsHtml;
+        }
+
+        function checkGameAnswer(selected) {
+            const current = gameData[currentGameIndex];
+            const isCorrect = (selected === current.answer);
+            if (isCorrect) gameScore += 10;
+
+            gameInputDetails.push(`Soal ${currentGameIndex+1}: Jwb=${selected} (${isCorrect ? "Benar" : "Salah"})`);
+
+            currentGameIndex++;
+            document.getElementById('gameScoreTag').innerText = `Skor: ${gameScore}`;
+            loadGameLevel();
+        }
+
+        function restartGame() {
+            gameScore = 0;
+            currentGameIndex = 0;
+            gameInputDetails = [];
+            loadGameLevel();
+        }
+
+        // BERLATIH (KUIS) LOGIC
+        function loadQuizQuestion() {
+            if (quizIndex >= quizData.length) {
+                const totalBenar = quizScore / 10;
+                const totalSalah = quizData.length - totalBenar;
+
+                sendToGAS({
+                    action: "submit_hasil",
+                    nama: currentUser.name,
+                    kelas: currentUser.class,
+                    jenisAktivitas: "Berlatih (Kuis Evaluasi)",
+                    jumlahBenar: totalBenar,
+                    jumlahSalah: totalSalah,
+                    skor: quizScore,
+                    detailInputan: quizInputDetails.join(" ; ")
+                });
+
+                document.getElementById('quizContainer').classList.add('hidden');
+                document.getElementById('quizResultBox').classList.remove('hidden');
+                document.getElementById('finalQuizScore').innerText = quizScore;
+                
+                let feedback = "Tetap semangat belajar ya!";
+                if (quizScore >= 80) feedback = "Luar biasa! Kamu sangat menguasai materi Pecahan Biasa! 🌟";
+                else if (quizScore >= 60) feedback = "Bagus! Terus tingkatkan latihanmu ya! 👍";
+                
+                document.getElementById('quizFeedback').innerText = feedback + " (Hasil tersimpan di spreadsheet Guru)";
+                return;
+            }
+
+            selectedQuizOption = null;
+            document.getElementById('quizNum').innerText = quizIndex + 1;
+            const q = quizData[quizIndex];
+            document.getElementById('quizQuestion').innerText = q.q;
+
+            let optsHtml = '';
+            q.opts.forEach((opt, idx) => {
+                optsHtml += `
+                    <div onclick="selectQuizOption(${idx})" id="qOpt_${idx}" class="p-3.5 bg-slate-50 hover:bg-purple-50 border border-slate-200 rounded-xl cursor-pointer text-xs font-semibold text-slate-700 transition flex items-center gap-3">
+                        <span class="w-6 h-6 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center font-bold text-[11px]">${String.fromCharCode(65 + idx)}</span>
+                        <span>${opt}</span>
+                    </div>
+                `;
+            });
+            document.getElementById('quizOptions').innerHTML = optsHtml;
+        }
+
+        function selectQuizOption(idx) {
+            selectedQuizOption = idx;
+            quizData[quizIndex].opts.forEach((_, i) => {
+                const el = document.getElementById(`qOpt_${i}`);
+                if (i === idx) {
+                    el.className = "p-3.5 bg-purple-100 border-2 border-purple-500 rounded-xl cursor-pointer text-xs font-bold text-purple-900 transition flex items-center gap-3 shadow-sm";
+                } else {
+                    el.className = "p-3.5 bg-slate-50 border border-slate-200 rounded-xl cursor-pointer text-xs font-semibold text-slate-700 transition flex items-center gap-3 opacity-60";
+                }
+            });
+        }
+
+        function submitQuizAnswer() {
+            if (selectedQuizOption === null) {
+                alert("Pilihlah salah satu jawaban terlebih dahulu!");
+                return;
+            }
+
+            const isCorrect = (selectedQuizOption === quizData[quizIndex].ans);
+            if (isCorrect) quizScore += 10;
+
+            const selectedText = quizData[quizIndex].opts[selectedQuizOption];
+            quizInputDetails.push(`Soal ${quizIndex+1}: Jwb=${String.fromCharCode(65+selectedQuizOption)} (${selectedText}) [${isCorrect ? "Benar" : "Salah"}]`);
+
+            quizIndex++;
+            loadQuizQuestion();
+        }
+    </script>
+</body>
+</html>
